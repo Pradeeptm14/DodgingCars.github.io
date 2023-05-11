@@ -1,0 +1,622 @@
+<html>
+    <body>
+        <canvas id="My Game Space" width="500" height="600" style="background-color: darkslategray"></canvas>
+            <script>
+                
+                var g_Canvas = document.getElementById("My Game Space");
+                var g_Context = g_Canvas.getContext("2d");
+           
+                var g_StartButton_xpos = 200;
+                var g_StartButton_ypos = 300;
+                var g_StartButton_Lsize = 90;
+                var g_StartButton_Wsize = 50;
+                
+                var g_TreeSquare1_xpos = 390;
+                var g_TreeSquare1_ypos = 100;
+                var g_TreeSquare1_size = 90;
+                
+                var g_TreeSquare2_xpos = 390;
+                var g_TreeSquare2_ypos = 300;
+                var g_TreeSquare2_size = 100;
+                
+                var g_TreeSquare3_xpos = 390;
+                var g_TreeSquare3_ypos = 500;
+                var g_TreeSquare3_size = 90;
+                
+                var g_TreeSquare4_xpos = 20;
+                var g_TreeSquare4_ypos = 100;
+                var g_TreeSquare4_size = 90;
+                
+                var g_TreeSquare5_xpos = 20;
+                var g_TreeSquare5_ypos = 300;
+                var g_TreeSquare5_size = 100;
+                
+                var g_TreeSquare6_xpos = 20;
+                var g_TreeSquare6_ypos = 500;
+                var g_TreeSquare6_size = 90;
+                
+                //var g_TreeMoveSpeed = 4;
+               // var g_Tree2MoveSpeed = 1;
+                
+                var g_Square1_xpos = 140;
+                var g_Square1_ypos = -50;
+                var g_Square1_size = 50;
+                
+                var g_Square2_xpos = 225;
+                var g_Square2_ypos =  -50;
+                var g_Square2_size = 50;
+                
+                var g_Square3_xpos = 310;
+                var g_Square3_ypos =  -50;
+                var g_Square3_size = 50;
+                
+                
+                var g_TreeImage1 = new Image();
+                g_TreeImage1.src = "pixel tree1.png";
+                
+                var g_TreeImage2 = new Image();
+                g_TreeImage2.src = "pixel tree2.png";
+                
+                var g_TreeImage3 = new Image();
+                g_TreeImage3.src = "pixel tree3.png";
+                
+                
+                var g_CarImage1 = new Image();
+                g_CarImage1.src = "pixelart-cars4.png";
+                
+                 var g_CarImage2 = new Image();
+                g_CarImage2.src = "pixelart-cars2.png";
+               
+                var g_CarImage3 = new Image();
+                g_CarImage3.src = "pixelart-cars3.png";
+              
+                var g_CarImage4 = new Image();
+                g_CarImage4.src = "pixelart-cars.png";
+              
+                
+                var g_MainSquare_xpos = 225;
+                var g_MainSquare_ypos = 510;
+                var g_MainSquare_size = 50;
+                
+                //var g_MovingObsticalsSpeed = 2
+                var g_MovingObsticals1Speed = 2;
+                var g_MovingObsticals2Speed = 2;
+                var g_MovingObsticals3Speed = 2;
+                
+                var g_DelayObsticalTime = 0;
+                var g_Seconds = 0;
+                
+                var g_Framrate =30;
+                var g_TravelInterval=1000/g_Framrate;
+                
+// DRAWING GAME NAME--------                
+                function f_DrawGameName()
+                {
+                    if(g_StartButton == 0)
+                    {
+                        g_Context.font = "50px Bungee Spice Regular";
+                        g_Context.fillStyle = "white";
+                        g_Context.fillText("DODGING CARS ", 50,200);
+                    }
+                }
+ 
+// DRAWING START BUTTON-------                
+                function f_DrawStartButtonSquare()
+                {
+                   
+                   if(g_StartButton == 0 )
+                   {
+                        g_Context.fillStyle = "black";
+                        g_Context.fillRect(g_StartButton_xpos,g_StartButton_ypos,g_StartButton_Lsize,g_StartButton_Wsize);
+                       
+                        g_Context.font = "20px Bungee Spice Regular";
+                        g_Context.fillStyle = "white";
+                        g_Context.fillText(" START ", 208,331);
+                   }
+                }
+                
+// DRAWING SCORE--------
+                function f_DrawScore()
+                {
+                    if(g_StartButton == 1)
+                    {
+                        g_Context.font = "17px Prospekt";
+                        g_Context.fillStyle = "white";
+                        g_Context.fillText("SCORE : "+g_SCORE, 376,20);
+                    }
+                    
+                   /*  if(g_StartButton == 0)
+                    {
+                        g_Context.font = "17px Bungee Spice Regular";
+                        g_Context.fillStyle = "white";
+                        g_Context.fillText("SCORE : "+g_SCORE, 202,290);
+                    }*/
+                }
+                
+                function f_PlayerScore()
+                {
+                      if(g_StartButton == 0)
+                    {
+                        g_Context.font = "17px Bungee Spice Regular";
+                        g_Context.fillStyle = "white";
+                        g_Context.fillText("SCORE : "+g_SCORE, 202,290);
+                    }
+                }
+                
+// DRAWING HIGSCORE---------
+                function f_DrawHighScore()
+                {
+                    if(g_StartButton == 0)
+                    {
+                        g_Context.font = "20px Bungee Spice Regular";
+                        g_Context.fillStyle = "white";
+                        g_Context.fillText("HIGH SCORE : " + g_HighScore, 170,260);
+                    }
+                }
+
+// DRAWING TREES----------
+                function f_DrawTreeImages()
+                {
+                  
+                    if (g_StartButton == 1)
+                        {
+                            g_Context.drawImage(g_TreeImage1,g_TreeSquare1_xpos,g_TreeSquare1_ypos,g_TreeSquare1_size,g_TreeSquare1_size);
+                           g_Context.drawImage(g_TreeImage2,g_TreeSquare2_xpos,g_TreeSquare2_ypos,g_TreeSquare2_size,g_TreeSquare2_size);
+                            
+                            g_Context.drawImage(g_TreeImage3,g_TreeSquare3_xpos,g_TreeSquare3_ypos,g_TreeSquare3_size,g_TreeSquare3_size);
+                            
+                            g_Context.drawImage(g_TreeImage2,g_TreeSquare4_xpos,g_TreeSquare4_ypos,g_TreeSquare4_size,g_TreeSquare4_size);
+                            
+                            g_Context.drawImage(g_TreeImage3,g_TreeSquare5_xpos,g_TreeSquare5_ypos,g_TreeSquare5_size,g_TreeSquare5_size);
+                            
+                            g_Context.drawImage(g_TreeImage1,g_TreeSquare6_xpos,g_TreeSquare6_ypos,g_TreeSquare6_size,g_TreeSquare6_size);
+                        
+                        }
+                    
+                }
+            
+// DRAWING OBSTICAL CARS-------
+                function f_DrawObsticalsSquares()
+                {
+                  /* g_Context.fillStyle = "rgba(245, 255, 0, 0.97)";
+                   g_Context.fillRect(g_Square1_xpos,g_Square1_ypos,g_Square1_size,g_Square1_size);
+                   g_Context.fillStyle = "red"
+                   g_Context.fillRect(g_Square2_xpos,g_Square2_ypos,g_Square2_size,g_Square2_size);
+                    g_Context.fillStyle = "#ff631e"
+                   g_Context.fillRect(g_Square3_xpos,g_Square3_ypos,g_Square3_size,g_Square3_size);*/
+                    if (g_StartButton == 1)
+                        {
+                            g_Context.drawImage(g_CarImage1,g_Square1_xpos,g_Square1_ypos,g_Square1_size,g_Square1_size);
+                            g_Context.drawImage(g_CarImage2,g_Square2_xpos,g_Square2_ypos,g_Square2_size,g_Square2_size);
+                            g_Context.drawImage(g_CarImage3,g_Square3_xpos,g_Square3_ypos,g_Square3_size,g_Square3_size);
+                        }
+                    
+                }
+// DRAWING MAIN CAR----------               
+                 function f_DrawMainSquare()
+                {
+                   /*g_Context.fillStyle = "blue";
+                   g_Context.fillRect(g_MainSquare_xpos,g_MainSquare_ypos,g_MainSquare_size,g_MainSquare_size);*/
+                    if(g_StartButton == 1)
+                        {
+                          g_Context.drawImage(g_CarImage4,g_MainSquare_xpos,g_MainSquare_ypos,g_MainSquare_size,g_MainSquare_size);
+                        }
+                   
+                }
+// MOVING TREES-------                
+                function f_MovingTrees()
+                {
+                    if(g_StartButton == 1)
+                        {
+                            
+                          if(g_GameOverFlag  == 1) 
+                          {return;}
+                            
+                          if(g_Seconds >= 0)
+                                {
+                                   g_TreeSquare1_ypos += g_MovingObsticals2Speed;
+
+                                }
+
+                                if(g_TreeSquare1_ypos > g_Canvas.height)
+                                {
+                                    g_TreeSquare1_ypos = 0;
+                                    //g_TreeMoveSpeed++;
+                                }
+                            
+                            if(g_Seconds >= 0)
+                                {
+                                   g_TreeSquare2_ypos += g_MovingObsticals2Speed;
+
+                                }
+
+                                if(g_TreeSquare2_ypos > g_Canvas.height)
+                                {
+                                    g_TreeSquare2_ypos = 0;
+                                    //g_TreeMoveSpeed++;
+                                }
+                            
+                              if(g_Seconds >= 0)
+                                {
+                                   g_TreeSquare3_ypos += g_MovingObsticals2Speed;
+
+                                }
+
+                                if(g_TreeSquare3_ypos > g_Canvas.height)
+                                {
+                                    g_TreeSquare3_ypos = 0;
+                                    //g_TreeMoveSpeed++;
+                                }
+                            
+                             if(g_Seconds >= 0)
+                                {
+                                   g_TreeSquare4_ypos += g_MovingObsticals2Speed;
+
+                                }
+
+                                if(g_TreeSquare4_ypos > g_Canvas.height)
+                                {
+                                    g_TreeSquare4_ypos = 0;
+                                    //g_TreeMoveSpeed++;
+                                }
+                            
+                              if(g_Seconds >= 0)
+                                {
+                                   g_TreeSquare5_ypos += g_MovingObsticals2Speed;
+
+                                }
+
+                                if(g_TreeSquare5_ypos > g_Canvas.height)
+                                {
+                                    g_TreeSquare5_ypos = 0;
+                                    //g_TreeMoveSpeed++;
+                                }
+                            
+                              if(g_Seconds >= 0)
+                                {
+                                   g_TreeSquare6_ypos += g_MovingObsticals2Speed;
+
+                                }
+
+                                if(g_TreeSquare6_ypos > g_Canvas.height)
+                                {
+                                    g_TreeSquare6_ypos = 0;
+                                    //g_TreeMoveSpeed++;
+                                }
+                        }
+                    
+                }
+// MOVING OBSTICALS  AND SCORE/ HIGHSCORE DECLARATION-------                   
+                var g_SCORE = 0;
+                var g_PlayerScore = 0;
+                
+                var g_HighScore = 0;
+                //localStorage.setItem("HighScore",0);
+           
+                function f_MovingObsticals()
+                {
+                    if(g_StartButton == 1)
+                        {
+                          if(g_GameOverFlag  == 1) 
+                          {return;}
+                            
+                          
+                            if(g_Seconds >= 1)
+                            {
+                               g_Square1_ypos += g_MovingObsticals1Speed; 
+                            }
+
+                            if(g_Square1_ypos > g_Canvas.height)
+                            {
+                                g_Square1_ypos = 0;
+                                g_MovingObsticals1Speed++;
+                                g_SCORE++;
+                            }
+                            if(g_Seconds >= 4)
+                            {
+                                g_Square2_ypos += g_MovingObsticals2Speed; 
+                            }
+
+
+                            if(g_Square2_ypos > g_Canvas.height)
+                            {
+                                g_Square2_ypos = 0;
+                                g_MovingObsticals2Speed++;
+                                g_SCORE++;
+                            }
+
+                            if(g_Seconds >= 6 )
+                            {
+                                 g_Square3_ypos += g_MovingObsticals3Speed;
+                            }
+
+                            if(g_Square3_ypos > g_Canvas.height)
+                            {
+                                g_Square3_ypos = 0;
+                                g_MovingObsticals3Speed++;
+                                g_SCORE++;
+                            }
+                        }
+                    
+                         g_HighScore = localStorage.getItem("HighScore");
+                        if(g_SCORE > g_HighScore)
+                        {
+                              localStorage.setItem("HighScore",g_SCORE);
+                        }
+                    
+                      /*  g_PlayerScore = localStorage.getItem("PlayerScore");
+                        localStorage.setItem("PlayerScore",g_SCORE);*/
+                           
+                        
+                        
+                }
+ // lans---------               
+                function f_LanDivision()
+                {
+                    if(g_StartButton == 1)
+                        {
+                            g_Context.beginPath();
+                            g_Context.moveTo(0,0);
+                            g_Context.lineTo(0,600);
+                            g_Context.closePath();
+
+                            g_Context.lineWidth =250;
+                            /*g_Context.fillStyle="green";
+                            g_Context.fill();*/
+                            g_Context.strokeStyle = "green";
+                            g_Context.stroke();
+
+                             g_Context.beginPath();
+                            g_Context.moveTo(210,0);
+                            g_Context.lineTo(210,600);
+                            g_Context.closePath();
+
+                            g_Context.lineWidth =5;
+                            /*g_Context.fillStyle="gray";
+                            g_Context.fill();*/
+                            g_Context.strokeStyle = "gray";
+                            g_Context.stroke();
+
+                            g_Context.beginPath();
+                            g_Context.moveTo(290,0);
+                            g_Context.lineTo(290,600);
+                            g_Context.closePath();
+
+                            g_Context.lineWidth =5;
+                            /*g_Context.fillStyle="gray";
+                            g_Context.fill();*/
+                            g_Context.strokeStyle = "gray";
+                            g_Context.stroke();
+
+                            g_Context.beginPath();
+                            g_Context.moveTo(450,0);
+                            g_Context.lineTo(450,600);
+                            g_Context.closePath();
+
+                            g_Context.lineWidth =150;
+                            /*g_Context.fillStyle="green";
+                            g_Context.fill();*/
+                            g_Context.strokeStyle = "green";
+                            g_Context.stroke();
+                        }
+
+                }
+            
+// road edge collision----   
+                function f_RoadEdgCollision()
+                {
+                    if(g_StartButton == 1)
+                        {
+                            if("left")
+                                {
+                                    if(g_MainSquare_xpos < g_Square1_xpos) 
+                                        {
+                                          g_MainSquare_xpos = g_Square1_xpos;    
+                                        }
+                                }
+                            if("right")
+                                {
+                                    if(g_MainSquare_xpos > g_Square3_xpos) 
+                                        {
+                                          g_MainSquare_xpos = g_Square3_xpos;    
+                                        }
+                                }
+                        }
+              
+                    
+                }
+                
+//OBSTICAL COLLISION AND GAEM OVER-----               
+                var g_GameOverFlag  = 0;// game over flag
+                
+                function f_ObsticalCollision()// car and car collision
+                {
+                    if(g_StartButton == 1)
+                        {
+                            if(g_MainSquare_xpos == 140)
+                                {
+                                    if(/*g_Square1_ypos + g_Square1_size >  g_MainSquare_ypos */
+                                    /*Left*/ g_Square1_xpos + g_Square1_size > g_MainSquare_xpos && 
+                                    /*Top*/g_Square1_ypos + g_Square1_size > g_MainSquare_ypos && 
+                                    /*Right*/g_Square1_xpos < g_MainSquare_xpos + g_MainSquare_size &&
+                                    /*Bottom*/g_Square1_ypos < g_MainSquare_ypos + g_MainSquare_size)
+                                        {
+                                           console.log("colliding");
+                                           g_GameOverFlag  = 1;
+                                            location.reload();
+                                            //g_StartButton = 0;
+                                             
+
+                                        }
+                                }
+                            if(g_MainSquare_xpos == 225)
+                                {
+                                    if(/*g_Square2_ypos + g_Square2_size >  g_MainSquare_ypos*/
+                                    /*Left*/ g_Square2_xpos + g_Square2_size > g_MainSquare_xpos && 
+                                    /*Top*/g_Square2_ypos + g_Square2_size > g_MainSquare_ypos && 
+                                    /*Right*/g_Square2_xpos < g_MainSquare_xpos + g_MainSquare_size &&
+                                    /*Bottom*/g_Square2_ypos < g_MainSquare_ypos + g_MainSquare_size)
+                                        {
+
+                                           console.log("colliding");
+                                             g_GameOverFlag  = 1;
+                                             location.reload();
+                                            //g_StartButton = 0;
+                                        }
+                                }
+
+                            if(g_MainSquare_xpos == 310)
+                                {
+                                    if(/*g_Square3_ypos + g_Square3_size >  g_MainSquare_ypos*/ 
+                                    /*Left*/ g_Square3_xpos + g_Square3_size > g_MainSquare_xpos && 
+                                    /*Top*/g_Square3_ypos + g_Square3_size > g_MainSquare_ypos && 
+                                    /*Right*/g_Square3_xpos < g_MainSquare_xpos + g_MainSquare_size &&
+                                    /*Bottom*/g_Square3_ypos < g_MainSquare_ypos + g_MainSquare_size)
+                                        {
+                                           console.log("colliding");
+                                             g_GameOverFlag  = 1;
+                                             location.reload();
+                                            //g_StartButton = 0;
+                                        }
+                                }
+                        }
+                       
+                    
+                    /*if((g_Square1_ypos > g_MainSquare_ypos) &&  (g_Square1_ypos + g_MainSquare_size > g_MainSquare_xpos ))
+                        {
+                            g_MovingObsticals1Speed = 0;
+                        }*/
+                   
+                }
+//CLEAR SCREEN-----              
+                function f_ClerScreen()
+                {
+                    //g_Context.lineWidth = 6;
+                    g_Context.clearRect(0,0,g_Canvas.width,g_Canvas.height);
+
+                    //g_Context.strokeRect(0,0,g_Canvas.width,g_Canvas.height);
+                }
+                
+                var g_StartButton = 0;
+                
+                function f_ClickStartButtonEventHandler(l_Event)
+                {
+                    if(l_Event.clientX > g_StartButton_xpos && l_Event.clientX <=(g_StartButton_xpos + g_StartButton_Lsize) && l_Event.clientY > g_StartButton_ypos && l_Event.clientY <= (g_StartButton_ypos + g_StartButton_Wsize))
+                        {
+                            g_StartButton = 1;
+                        } 
+                    console.log("start button is clicked");
+                }
+
+
+//MAIN CAR-----            
+                function f_MoveMainSquare(l_Dir)
+                {
+                    
+                    if(g_GameOverFlag  == 0)
+                    {
+                        if(l_Dir == "left")
+                        {
+                            g_MainSquare_xpos -= 85;
+
+                        }
+                        if(l_Dir == "right")
+                        {
+                            g_MainSquare_xpos += 85;
+
+                        }
+                    }
+                    
+                    
+                }
+                
+ //GAME LOOP-----            
+                function GameLoop()
+                {
+                    
+                    //logic
+                    //Move Square
+                    f_DelayTime();
+                    f_MovingObsticals();
+                    f_MovingTrees();
+                    
+                    //collision
+                    f_RoadEdgCollision();
+                    f_ObsticalCollision();
+
+
+                    //clearScreen
+                    f_ClerScreen();
+
+                    //Draw
+                    f_DrawGameName();
+                    f_DrawStartButtonSquare();
+                    
+                    f_LanDivision();
+                    f_DrawObsticalsSquares();
+                    f_DrawMainSquare();
+                    f_DrawScore();
+                    f_DrawHighScore();
+                    f_PlayerScore();
+                    f_DrawTreeImages();
+                    
+                }
+
+//DELAY TIME-----
+                function f_DelayTime()
+                {
+                     if(g_StartButton == 1)
+                        {
+                    g_DelayObsticalTime++;
+                    
+                    if(g_DelayObsticalTime % g_Framrate == 0)
+                        {
+                            g_Seconds++;
+                        }
+                        }
+                }
+                
+               
+// (FLAGS)MOVIN MAIN CAR ADN GAME OVER----               
+                  var g_MoveMainSquareLeftFlag = 0;
+                  var g_MoveMainSquareRightFlag = 0;
+                  var g_GameOverFlag = 0;
+                
+          //KEY DOWN----      
+                  function f_KeyDownEventHandler(l_Event)
+                    {
+                        if(l_Event.keyCode == 37)
+                            {
+                               // g_MoveMainSquareLeftFlag = 1;
+                                f_MoveMainSquare("left");
+                            }
+
+                        if(l_Event.keyCode == 39)
+                            {
+                                //g_MoveMainSquareRightFlag = 1;
+                                f_MoveMainSquare("right");
+                            }
+                    }
+          //KEY UP----
+                  function f_KeyUpEventHandler(l_Event)
+                    {
+                        if(l_Event.keyCode == 37)
+                            {
+                                g_MoveMainSquareLeftFlag = 0;
+                               
+                            }
+                        if(l_Event.keyCode == 39)
+                            {
+                                g_MoveMainSquareRightFlag = 0;
+                                
+                            }
+                    }
+                
+              
+                var SetIntervalID = setInterval(GameLoop,g_TravelInterval);
+                window.addEventListener("keydown",f_KeyDownEventHandler);
+                window.addEventListener("keyup",f_KeyUpEventHandler);
+                window.addEventListener("mousedown",f_ClickStartButtonEventHandler);
+            </script>
+    </body>
+</html>
